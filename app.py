@@ -2,7 +2,7 @@ from flask import Flask, session, render_template, request
 from flask_session import Session 
 from cachelib.file import FileSystemCache
 
-app = Flask(__name__)
+app = Flask("flexr")
 
 # ONLY FOR DEVELOPMENT  ->
 #---
@@ -14,7 +14,13 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 app.config['SESSION_TYPE'] = "cachelib"
 app.config['SESSION_PERMANENT'] = True
-SESSION_CACHELIB = FileSystemCache(threshold=500, cache_dir="/sessions"),
-app.config.from_object(__name__)
+SESSION_CACHELIB = FileSystemCache(
+    cache_dir="./sessions",
+    threshold=500, # A maximum of cached sessions
+    default_timeout=10 # Seconds a session will last
+    ),
+app.config.from_object("flexr")
 
 Session(app)
+
+@app.after_request(response)
