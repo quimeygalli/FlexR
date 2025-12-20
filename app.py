@@ -2,7 +2,7 @@ from flask import Flask, session, render_template, request
 from flask_session import Session 
 from cachelib.file import FileSystemCache
 
-app = Flask("flexr")
+app = Flask(__name__)
 
 # ONLY FOR DEVELOPMENT  ->
 #---
@@ -19,8 +19,11 @@ SESSION_CACHELIB = FileSystemCache(
     threshold=500, # A maximum of cached sessions
     default_timeout=10 # Seconds a session will last
     ),
-app.config.from_object("flexr")
+app.config.from_object(__name__)
 
 Session(app)
 
-@app.after_request(response)
+@app.route("/")
+def index():
+    return render_template("index.html")
+
