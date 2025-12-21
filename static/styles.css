@@ -1,0 +1,313 @@
+/* =========================================
+   1. VARIABLES & THEME
+   ========================================= */
+:root {
+    /* Brand Colors */
+    --primary-red: #D32F2F;       /* Main Brand Color */
+    --primary-red-hover: #B71C1C; /* Darker Red for interactions */
+    
+    /* Neutral Colors */
+    --text-dark: #212121;         /* Headings, Main text */
+    --text-medium: #555555;       /* Secondary text */
+    --text-light: #757575;        /* Subtitles, hints */
+    --bg-white: #FFFFFF;          /* Main Background */
+    --bg-light: #F5F5F5;          /* Section Backgrounds / Dashboard BG */
+    --border-color: #E0E0E0;      /* Card borders, dividers */
+    
+    /* Functional */
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+    --radius: 8px;                /* Standard corner radius */
+    --nav-height: 80px;
+}
+
+/* =========================================
+   2. RESET & BASE TYPOGRAPHY
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-white);
+    color: var(--text-dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+p {
+    margin-bottom: 1rem;
+    color: var(--text-medium);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s ease;
+}
+
+ul {
+    list-style: none;
+}
+
+/* =========================================
+   3. LAYOUT UTILITIES
+   ========================================= */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+/* Standard Section Spacing */
+section {
+    padding: 80px 0;
+}
+
+/* Helper for alternating background colors */
+.bg-light {
+    background-color: var(--bg-light);
+}
+
+/* Flex Utilities */
+.d-flex { display: flex; }
+.align-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-1 { gap: 10px; }
+.gap-2 { gap: 20px; }
+
+/* =========================================
+   4. COMPONENT: BUTTONS
+   ========================================= */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 5px; /* Slightly tighter radius for buttons */
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: 2px solid transparent;
+}
+
+/* Primary Action (Red) */
+.btn-primary {
+    background-color: var(--primary-red);
+    color: white;
+    border-color: var(--primary-red);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-red-hover);
+    border-color: var(--primary-red-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Outline Action (Red Text) */
+.btn-outline {
+    background-color: transparent;
+    color: var(--primary-red);
+    border-color: var(--primary-red);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-red);
+    color: white;
+}
+
+/* Full Width Button (for mobile or pricing) */
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+/* =========================================
+   5. COMPONENT: CARDS
+   ========================================= */
+/* Generic Card Style */
+.card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 30px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect for interactive cards (like features) */
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-top: 4px solid var(--primary-red); /* The signature red top */
+}
+
+/* =========================================
+   6. COMPONENT: TEXT ELEMENTS
+   ========================================= */
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-light);
+    max-width: 600px;
+    margin: 0 auto 3rem auto;
+    font-size: 1.1rem;
+}
+
+/* Checkmark Icon for lists */
+.check-icon {
+    color: var(--primary-red);
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+/* =========================================
+   7. NAVIGATION
+   ========================================= */
+header {
+    background-color: var(--bg-white);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo span {
+    color: var(--primary-red);
+}
+
+.nav-links {
+    display: none; /* Mobile first hidden */
+    gap: 25px;
+    align-items: center;
+}
+
+.nav-links a:hover {
+    color: var(--primary-red);
+}
+
+@media(min-width: 768px) {
+    .nav-links { display: flex; }
+}
+
+/* =========================================
+   8. SPECIFIC LANDING PAGE SECTIONS
+   ========================================= */
+
+/* Hero */
+.hero {
+    background: linear-gradient(135deg, #fff 50%, #fdfdfd 50%);
+    padding: 100px 0;
+}
+.hero h1 { font-size: 3.5rem; font-weight: 900; }
+.hero-image-placeholder {
+    background-color: #eee;
+    height: 400px;
+    border-radius: var(--radius);
+    border-bottom: 5px solid var(--primary-red);
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+}
+
+/* Features Grid */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+.feature-icon { font-size: 2rem; color: var(--primary-red); margin-bottom: 15px; }
+
+/* Pricing Specifics */
+.pricing-card {
+    max-width: 450px;
+    margin: 0 auto;
+    text-align: center;
+    border-top: 6px solid var(--primary-red);
+    padding: 50px;
+}
+.price-tag {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.price-tag .currency { font-size: 1.5rem; margin-top: -15px; }
+.price-tag .period { font-size: 1rem; color: var(--text-light); align-self: flex-end; margin-bottom: 10px; font-weight: normal;}
+
+/* CTA Section */
+.cta-section {
+    background-color: var(--primary-red);
+    color: white;
+    text-align: center;
+    padding: 80px 0;
+}
+.cta-section h2 { color: white; }
+.cta-section .btn {
+    background-color: white;
+    color: var(--primary-red);
+    border-color: white;
+}
+.cta-section .btn:hover {
+    background-color: transparent;
+    color: white;
+}
+
+/* Footer */
+footer {
+    background-color: #1a1a1a;
+    color: #888;
+    padding: 50px 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   9. RESPONSIVE UTILITIES
+   ========================================= */
+@media(max-width: 768px) {
+    .hero h1 { font-size: 2.5rem; }
+    .section-title { font-size: 2rem; }
+}

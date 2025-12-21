@@ -1,0 +1,144 @@
+{% extends "layout.html" %}
+
+    {%block title%}IronHub - The Ultimate Gym Management Software{% endblock %}
+
+{% block main %}
+
+    <header>
+        <link href="/static/index.css" rel="stylesheet">
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <link href="/static/FlexR_Logo.png" rel="icon">
+                </div>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#member-app">Member App</a>
+                    <a href="#">Pricing</a>
+                    <a href="#" class="btn btn-outline" style="margin-left: 10px;">Login</a>
+                    <a href="#" class="btn btn-primary">Get Started</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+<!-- Simple presentation -->
+
+    <section class="hero">
+        <div class="container" style="display: flex; flex-wrap: wrap; align-items: center;">
+            <div class="hero-content">
+                <h1>Manage your gym.<br>Empower your members.</h1>
+                <p>The all-in-one platform for gym owners to track members, manage revenue, and give users the tools they need to crush their PRs.</p>
+            </div>
+            <div class="hero-image">
+                <div class="mockup-text">
+                    <!-- Add image of receptionist/gym owner using app here -->
+                    [Admin Dashboard Screenshot]<br>
+                    <span style="font-size: 1rem; font-weight: normal;">Active Members | Revenue | Recent Signups</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Features (needs some work) -->
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Built for Gym Owners</h2>
+            <p class="section-subtitle">Stop using spreadsheets. Get a complete overview of your business in real-time.</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="icon">👥</div>
+                    <h3>User Management</h3>
+                    <p>Onboard new members in seconds. Track active users, manage expirations, and handle renewals effortlessly.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📊</div>
+                    <h3>Business Analytics</h3>
+                    <p>See exactly how your gym is performing. Automatically track monthly revenue.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">:)</div>
+                    <h3>Blank for now</h3>
+                    <p>Coming soon</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Member benefits -->
+
+    <section id="member-app" class="member-app">
+        <div class="container">
+            <div class="app-container">
+                <div class="app-image">
+                    <div class="mockup-text" style="color: #555;">
+                        [Mobile Web App View]<br>
+                        <span style="font-size: 0.9rem; color: #777;">
+                            Bench Press: 100kg (PR)<br>
+                            Next Routine: Leg Day
+                        </span>
+                    </div>
+                </div>
+                <div class="app-content">
+                    <h2 class="section-title" style="text-align: left;">Give your members a pro experience</h2>
+                    <p style="margin-bottom: 30px; color: var(--text-light);">
+                        Your service doesn't end when they walk out the door. FlexR provides a dedicated web portal for your athletes.
+                    </p>
+                    <ul class="app-list">
+                        <li><span class="check">✓</span> <strong>Track Personal Records (PRs):</strong> Members can log lifts and see progress over time.</li>
+                        <li><span class="check">✓</span> <strong>Access Routines:</strong> Upload specific hypertrophy plans directly to their dashboard.</li>
+                        <li><span class="check">✓</span> <strong>Weight & Body Stats:</strong> Visual graphs for members to track their body weight and exercise progress.</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" style="margin-top: 20px;">See Member View</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Pricing -->
+    <section id="pricing" class="pricing">
+            <div class="container">
+                <h2 class="section-title">Simple, Transparent Pricing</h2>
+                <p class="section-subtitle">No hidden fees. No complicated tiers. Just one price for everything.</p>
+
+                <div class="pricing-card">
+                    <h3>All-Access Plan</h3>
+                    <div class="price-tag">
+                        <span class="currency">$</span>30<span class="period">/ month</span>
+                    </div>
+                    
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span><strong>Unlimited Gym Members</strong></li>
+                        <li><span class="check">✓</span><strong>Owner Dashboard & Analytics</strong></li>
+                        <li><span class="check">✓</span><strong>Athlete Web Portal Access</strong></li>
+                        <li><span class="check">✓</span><strong>Routine & PR Tracking</strong></li>
+                        <li><span class="check">✓</span><strong>24/7 Customer Support</strong></li>
+                    </ul>
+
+                    <a href="#" class="btn btn-primary" style="width: 100%;">Step up your experience</a>
+                    <p style="margin-top: 15px; font-size: 0.85rem; color: #999;">Cancel anytime. No credit card required for trial.</p>
+                </div>
+            </div>
+        </section>
+
+<!-- Associate gym -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to scale your gym?</h2>
+            <p>Join hundreds of gym owners upgrading their management today.</p>
+            <a href="#" class="btn">Associate your gym</a>
+        </div>
+    </section>
+
+<!-- Footer (copyright sheboing) -->
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 FLexR Solutions. All rights reserved.</p>
+        </div>
+    </footer>
+
+{% endblock %}
+</html>

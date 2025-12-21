@@ -3,7 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, width=device-width">
-    <title>{% title block %}{% endblock %}</title>
+    <!-- # Source - https://stackoverflow.com/a/25036606
+    # Posted by Andrejs Cainikovs, modified by community. See post 'Timeline' for change history
+    # Retrieved 2025-12-21, License - CC BY-SA 3.0 -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <title>{% block title %}{% endblock %}</title>
 </head>
 
 <body>
