@@ -257,6 +257,10 @@
             padding: 100px;
         }
 
+        .price-tag .currency { font-size: 1.5rem; margin-top: -15px; }
+        .price-tag .period { font-size: 1rem; color: var(--text-light); align-self: flex-end; margin-bottom: 10px; font-weight: normal;}
+
+
         /* --- CTA SECTION --- */
         .cta-section {
             background-color: var(--primary-red);

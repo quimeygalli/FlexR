@@ -152,7 +152,7 @@ section {
 .card-hover:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-md);
-    border-top: 4px solid var(--primary-red); /* The signature red top */
+    border-top: 4px solid var(--bg-white); /* The signature red top */
 }
 
 /* =========================================
@@ -220,7 +220,7 @@ header {
     align-items: center;
 }
 
-.nav-links a:hover {
+.nav-links a:not(.btn):hover {
     color: var(--primary-red);
 }
 
@@ -274,8 +274,6 @@ header {
     align-items: center;
     justify-content: center;
 }
-.price-tag .currency { font-size: 1.5rem; margin-top: -15px; }
-.price-tag .period { font-size: 1rem; color: var(--text-light); align-self: flex-end; margin-bottom: 10px; font-weight: normal;}
 
 /* CTA Section */
 .cta-section {
