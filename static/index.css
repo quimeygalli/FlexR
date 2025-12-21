@@ -144,16 +144,14 @@
 
         .hero-image {
             flex: 1;
-            background-color: #eee;
+            background-color: #FFFFFF;
             height: 400px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: var(--shadow);
             position: relative;
             overflow: hidden;
-            border-bottom: 5px solid var(--primary-red);
         }
         
         /* Placeholder for mockup */
