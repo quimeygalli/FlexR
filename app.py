@@ -35,5 +35,13 @@ def register():
     password = request.form.get("password")
     repeatPassword = request.form.get("repeatPassword")
 
-    app.logger.info(gymName)
+    #TODO: not a good check. would need some JS first, and in case the code is edited a python safety
+    #      check (apology function would work)
+
+    if not (gymName and ownerName and emailAddress and password and repeatPassword):
+        return apology("Please fill all fields")
+    
+    if password != repeatPassword:
+        return apology("Passwords must match")
+
     return render_template("register.html")
