@@ -110,8 +110,11 @@ def login():
 
         row = cursor.fetchone() 
         
-        if row is None:
+        if row is None or not check_password_hash(
+            row["password_Hash"], password
+        ):
             return "INVALID EMAIL OR PASSWORD"
+        
         
         session["user_id"] = row["gym_id"]
         return redirect("/") # TODO; Create the homepage
