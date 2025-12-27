@@ -50,6 +50,22 @@ def register():
         if not gymName or not emailAddress or not password or not repeatPassword:
             return "PLEASE FILL ALL FIELDS"
         
+        connection = sqlite3.connect("gyms.db")
+        connection.row_factory = dict_factory
+
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT * " \
+                        "FROM gyms " \
+                        "WHERE gym_Email IS ?", (emailAddress,))
+
+        row = cursor.fetchone()
+
+        print(row)
+
+        if row != None:
+            return "EMAIL IN USE"
+        
         # Check if passwords match.
 
         if password != repeatPassword:
@@ -68,9 +84,6 @@ def register():
         
         """ INSERT NEW USER TO DB """
 
-        connection = sqlite3.connect("gyms.db")
-        cursor = connection.cursor()
-
         cursor.execute("INSERT INTO " \
                        "gyms " \
                        "(gym_Name, gym_Email, password_Hash) " \
@@ -79,7 +92,7 @@ def register():
                        )
         
         connection.commit()
-        connection.close() # TODO: Check where to close the connection.
+        connection.close() 
 
         return redirect("/login")
     else:
@@ -117,7 +130,7 @@ def login():
         
         
         session["user_id"] = row["gym_id"]
-        return redirect("/") # TODO; Create the homepage
+        return redirect("/homepage") # TODO; Create the homepage
 
 
     return render_template("login.html")
