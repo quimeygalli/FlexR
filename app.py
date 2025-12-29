@@ -97,7 +97,6 @@ def register():
         return redirect("/login")
     else:
         return render_template("register.html")
-    
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -131,15 +130,26 @@ def login():
             return "INVALID EMAIL OR PASSWORD"
         
         
-        session["user_id"] = row["gym_id"]
+        session["gym_id"] = row["gym_id"]
         return redirect("/homepage")
 
 
     return render_template("login.html")
 
+@app.route("/logout")
+def logout():
+
+    session.clear()
+
+    return redirect("/")
 
 @app.route("/homepage")
 def homepage():
+
+    if "gym_id" not in session:
+        return redirect("/login")
+
+    print("SESSION NUMBER: ", session["gym_id"])
 
     connection = sqlite3.connect("gyms.db")
     connection.row_factory = dict_factory
@@ -147,9 +157,10 @@ def homepage():
     cursor = connection.cursor()
 
     query = ("SELECT * "
-            "FROM members;")
+            "FROM members "
+            "WHERE gym_id = ?;")
 
-    cursor.execute(query)
+    cursor.execute(query, (session["gym_id"],))
 
     members = cursor.fetchall() 
 
@@ -157,6 +168,12 @@ def homepage():
 
     return render_template("homepage.html", members=members)
 
-@app.route("/new_member", methods=["GET", "POST"])
-def new_member():
-    return render_template("new_member.html")
+# @app.route("/new_member", methods=["GET", "POST"])
+# def new_member():
+
+#     if request.method == "POST": 
+#         id = request.form.get("id")
+#         name = request.form.get("first_name") + " " + request.form.get("last_name")
+#         gym_id =
+
+#     return render_template("new_member.html")

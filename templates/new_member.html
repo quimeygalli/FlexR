@@ -37,22 +37,22 @@
                     <p style="margin-bottom: 0;">Enter the member's personal details to create their profile.</p>
                 </div>
 
-                <form action="#" method="POST">
+                <form action="submit" method="post">
                     
                     <div class="d-flex gap-2" style="margin-bottom: 20px;">
                         <div style="flex: 1;">
                             <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" id="firstName" class="form-control" placeholder="e.g. Juan" required>
+                            <input name="first_name"  type="text" id="firstName" class="form-control" placeholder="e.g. Juan" required>
                         </div>
                         <div style="flex: 1;">
                             <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" id="lastName" class="form-control" placeholder="e.g. Pérez" required>
+                            <input name="last_name" type="text" id="lastName" class="form-control" placeholder="e.g. Pérez" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="nationalId" class="form-label">ID / Document Number</label>
-                        <input type="number" id="nationalId" class="form-control" placeholder="e.g. 12345678" required>
+                        <input name="id" type="number" id="nationalId" class="form-control" placeholder="e.g. 12345678" required>
                         <p class="form-hint">Used to uniquely identify the member at the front desk.</p>
                     </div>
 
