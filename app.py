@@ -14,7 +14,7 @@ app.config['DEBUG'] = True
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 #---
 
-""" SESSION CONFIG """
+""" Configuration of session """
 
 app.config['SESSION_TYPE'] = "cachelib"
 app.config['SESSION_PERMANENT'] = True
@@ -27,7 +27,7 @@ app.config.from_object(__name__)
 
 Session(app)
 
-""" DB CREATION """
+""" DB creation """
 
 connection = sqlite3.connect("gyms.db") # Connection.
 createDB()                              # Creates a DB with 'gyms', 'members' and 'routines' tables.
@@ -35,10 +35,15 @@ connection.close()
 
 @app.route("/")
 def index():
+
+    """ The presentation to our service """
+
     return render_template("index.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+
+    """ Registration page """
 
     if request.method == "POST":
 
@@ -57,13 +62,15 @@ def register():
 
         cursor = connection.cursor()
 
+        # Check if email has been used.
+
         cursor.execute("SELECT * " \
                         "FROM gyms " \
                         "WHERE gym_email IS ?", (email_address,))
 
         row = cursor.fetchone()
 
-        print(row)
+        # If there are rows with that email, notify the user.
 
         if row != None:
             return "EMAIL IN USE"
@@ -94,25 +101,35 @@ def register():
                        )
         
         connection.commit()
+
+        cursor.close()
         connection.close() 
 
         return redirect("/login")
+    
     else:
         return render_template("register.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+
+    """ Login page """
+
     if request.method == "POST":
 
         gym_email = request.form.get("email_address")
         password = request.form.get("password")
 
+        # Check if all fields have been filled.
+
         if not gym_email or not password:
             return "PLEASE FILL ALL FIELDS"
         
+        # Get gym data from DB.
+
         query = ("SELECT * " \
                 "FROM gyms " \
-                "WHERE gym_email = ?" # Will return the row with all the gym data
+                "WHERE gym_email = ?" # Will return the row with all the gym data.
                 )
         
         connection = sqlite3.connect("gyms.db")
@@ -120,17 +137,20 @@ def login():
 
         cursor = connection.cursor()
 
-        cursor.execute(query, (gym_email,)) # Must pass variables as a tuple, even if there is just a single one
+        cursor.execute(query, (gym_email,)) # Must pass variables as a tuple, even if there is just a single one.
+
+        # Save the whole row as a dict. (Honestly, this is unnecesary here, but if it ain't broke don't fix it).
 
         row = cursor.fetchone() 
 
         connection.close()
         
+        # Check if there are any users with that email and check the password.
+
         if row is None or not check_password_hash(
             row["password_hash"], password
         ):
             return "INVALID EMAIL OR PASSWORD"
-        
         
         session["gym_id"] = row["gym_id"]
         return redirect("/homepage")
@@ -141,6 +161,8 @@ def login():
 @app.route("/logout")
 def logout():
 
+    """ Logout the user """
+
     session.clear()
 
     return redirect("/")
@@ -148,15 +170,19 @@ def logout():
 @app.route("/homepage")
 def homepage():
 
+    """ Gym owner's menu """
+
+    # Check if a session is open.
+
     if "gym_id" not in session:
         return redirect("/login")
-
-    print("SESSION NUMBER: ", session["gym_id"])
 
     connection = sqlite3.connect("gyms.db")
     connection.row_factory = dict_factory
 
     cursor = connection.cursor()
+
+    # Show members in a list.
 
     query = ("SELECT * "
             "FROM members "
@@ -165,8 +191,6 @@ def homepage():
     cursor.execute(query, (session["gym_id"],))
 
     members = cursor.fetchall() 
-
-    # TODO; Add logic for dates and status.
 
     return render_template("homepage.html", members=members)
 
@@ -178,18 +202,24 @@ def new_member():
 
     if request.method == "POST": 
 
+        # Get data from form.
+
         member_id = request.form.get("id")
-        name = request.form.get("first_name") + " " + request.form.get("last_name")
+        name = request.form.get("first_name")
+        last_name =request.form.get("last_name")
         gym_id = session["gym_id"]
-        joined_date = int(time.time())
+        joined_date = int(time.time()) # Saved in UNIX timestamp
         end_date = joined_date
+
+        if not member_id or not name or not last_name or not gym_id or not joined_date or not end_date:
+            return "Please fill all fields."
 
         connection = sqlite3.connect("gyms.db")
         connection.row_factory = dict_factory
 
         cursor = connection.cursor()
 
-        # TODO; Add member to DB. Should find a way to get the date and store it too.
+        # Insert query
 
         query = ("INSERT INTO "
                 "members ("
@@ -202,15 +232,13 @@ def new_member():
                 )
         
         cursor.execute(query, 
-                       (member_id, name, gym_id, joined_date, end_date)
+                       (member_id, name + " " + last_name, gym_id, joined_date, end_date) # Awful design honestly
                        )
         
         connection.commit()
 
         cursor.close()
         connection.close()
-
-        print(gym_id)
         
         return redirect("homepage")
 
