@@ -4,6 +4,7 @@ from cachelib.file import FileSystemCache
 import sqlite3
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, createDB, dict_factory
+import time
 
 app = Flask(__name__)
 
@@ -40,6 +41,7 @@ def index():
 def register():
 
     if request.method == "POST":
+
         gym_name = request.form.get("gym_name")
         email_address = request.form.get("email_address")
         password = request.form.get("password")
@@ -171,25 +173,45 @@ def homepage():
 @app.route("/new_member", methods=["GET", "POST"])
 def new_member():
 
-    if request.method == "POST": 
-        id = request.form.get("id")
-        name = request.form.get("first_name") + " " + request.form.get("last_name")
+    """ INSERT A NEW MEMBER TO DB """
 
-        connection =sqlite3.connect("gyms.db")
+
+    if request.method == "POST": 
+
+        member_id = request.form.get("id")
+        name = request.form.get("first_name") + " " + request.form.get("last_name")
+        gym_id = session["gym_id"]
+        joined_date = int(time.time())
+        end_date = joined_date
+
+        connection = sqlite3.connect("gyms.db")
         connection.row_factory = dict_factory
 
         cursor = connection.cursor()
 
-        query = "SELECT gym_id " \
-                "FROM gyms" \
-                "WHERE gym_id = ?"
+        # TODO; Add member to DB. Should find a way to get the date and store it too.
 
-        cursor.execute(query, (session["gym_id"],))
+        query = ("INSERT INTO "
+                "members ("
+                        "member_id, " \
+                        "name, " \
+                        "gym_id, " \
+                        "joined_date, " \
+                        "end_date)" \
+                "VALUES (?, ?, ?, ?, ?);"
+                )
+        
+        cursor.execute(query, 
+                       (member_id, name, gym_id, joined_date, end_date)
+                       )
+        
+        connection.commit()
 
-        gym_id = cursor.fetchone()
-
-        # TODO; Add member to DB. Should find a way to get the time and store it too.
+        cursor.close()
+        connection.close()
 
         print(gym_id)
+        
+        return redirect("homepage")
 
     return render_template("new_member.html")

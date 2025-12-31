@@ -37,16 +37,15 @@
                     <p style="margin-bottom: 0;">Enter the member's personal details to create their profile.</p>
                 </div>
 
-                <form action="submit" method="post">
-                    
+                <form action="/new_member" method="post" required>
                     <div class="d-flex gap-2" style="margin-bottom: 20px;">
                         <div style="flex: 1;">
                             <label for="firstName" class="form-label">First Name</label>
-                            <input name="first_name"  type="text" id="firstName" class="form-control" placeholder="e.g. Juan" required>
+                            <input name="first_name"  type="text" id="firstName" class="form-control" placeholder="e.g. Juan" autocomplete="off" required>
                         </div>
                         <div style="flex: 1;">
                             <label for="lastName" class="form-label">Last Name</label>
-                            <input name="last_name" type="text" id="lastName" class="form-control" placeholder="e.g. Pérez" required>
+                            <input name="last_name" type="text" id="lastName" class="form-control" placeholder="e.g. Pérez" autocomplete="off" required>
                         </div>
                     </div>
 
@@ -58,7 +57,7 @@
 
                     <div style="display: flex; gap: 15px; margin-top: 30px;">
                         <button type="submit" class="btn btn-primary" style="flex: 1;">Save Member</button>
-                        <a href="dashboard.html" class="btn btn-outline" style="flex: 1;">Cancel</a>
+                        <a href="/homepage" class="btn btn-outline" style="flex: 1;">Cancel</a>
                     </div>
 
                 </form>
