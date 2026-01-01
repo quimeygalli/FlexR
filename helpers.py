@@ -31,6 +31,7 @@ def createDB():
                 "joined_date INTEGER NOT NULL, " \
                 "end_date INTEGER NOT NULL, " \
                 "status TEXT NOT NULL DEFAULT 'Inactive', " \
+                "last_visit INTEGER, " \
                 "FOREIGN KEY (gym_id) REFERENCES gyms (gym_id));"
                 )
     

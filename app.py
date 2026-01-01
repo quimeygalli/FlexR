@@ -3,7 +3,7 @@ from flask_session import Session
 from cachelib.file import FileSystemCache
 import sqlite3
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import apology, createDB, dict_factory
+from helpers import createDB, dict_factory
 import time
 
 app = Flask(__name__)
@@ -32,6 +32,10 @@ Session(app)
 connection = sqlite3.connect("gyms.db") # Connection.
 createDB()                              # Creates a DB with 'gyms', 'members' and 'routines' tables.
 connection.close()
+
+
+""" WEBPAGES """
+
 
 @app.route("/")
 def index():
