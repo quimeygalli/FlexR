@@ -217,6 +217,11 @@ def new_member():
         joined_date = int(time.time()) # Saved in UNIX timestamp
         end_date = joined_date
 
+        # ID validation
+
+        if not isinstance(member_id, int):
+            return "PLEASE INPUT A VALID ID"
+
         if not member_id or not name or not last_name or not gym_id or not joined_date or not end_date:
             return "Please fill all fields."
 
@@ -272,6 +277,7 @@ def reception():
 
         row = cursor.fetchone()
 
-        if row["member"]: # Should use JS here, not Python.
+        if not row["member_id"]: # Should use JS here, not Python.
+            return "MEMBER NOT FOUND"
 
     return render_template("reception.html")
