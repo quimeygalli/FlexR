@@ -43,67 +43,7 @@
 
     </section>
 
-    <script>
-        /*
-
-            Will deal with this later
-
-        const inputField = document.getElementById('member-id-input');
-        const statusDiv = document.getElementById('status-message');
-
-        // 1. Force Focus: Ensure input is always ready for typing
-        document.addEventListener('click', function() {
-            inputField.focus();
-        });
-        
-        // Also focus on load
-        window.onload = function() {
-            inputField.focus();
-        };
-
-        // 2. Handle the Form Submit (Enter Key)
-        function handleCheckIn(event) {
-            event.preventDefault(); // Stop page reload
-            
-            const enteredId = inputField.value;
-            if(!enteredId) return;
-
-            // Clear previous UI state
-            resetStatus();
-
-            // SIMULATION LOGIC:
-            // "0000" = REJECTED, anything else = ACCEPTED
-            if (enteredId === "0000") {
-                showResult(false, "Membership Expired");
-            } else {
-                showResult(true, "Welcome, Athlete!");
-            }
-
-            // Clear input for the next person
-            inputField.value = "";
-        }
-
-        function resetStatus() {
-            statusDiv.className = 'access-result'; 
-            statusDiv.style.display = 'none';
-        }
-
-        function showResult(isAllowed, message) {
-            statusDiv.style.display = 'block';
-            statusDiv.innerText = message;
-
-            if (isAllowed) {
-                statusDiv.classList.add('result-accepted');
-            } else {
-                statusDiv.classList.add('result-rejected');
-            }
-
-            // Hide message after 3 seconds
-            setTimeout(() => {
-                resetStatus();
-            }, 3000);
-        }*/
-    </script>
+    <script src="{{url_for('static', filename='reception.js')}}"></script>
 
 </body>
 </html>

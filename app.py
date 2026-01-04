@@ -3,7 +3,7 @@ import time
 
 import jinja2
 from cachelib.file import FileSystemCache
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request, session, jsonify
 from flask_session import Session
 
 from helpers import createDB, dict_factory, unix_to_MD
@@ -271,31 +271,37 @@ def new_member():
 
     return render_template("new_member.html")
 
-@app.route("/reception", methods=["GET", "POST"])
+
+@app.route("/reception")
 def reception():
-
-    """ Get a member's ID and determine if it's a registered user """
-
-    if request.method == "POST":
-
-        member_id = request.form.get("member_id")
-
-        query = "SELECT * " \
-                "FROM members " \
-                "WHERE member_id = ?" \
-                "AND " \
-                "gym_id = ?;"
-        
-        connection = sqlite3.connect("gyms.db")
-        connection.row_factory = dict_factory
-
-        cursor = connection.cursor()
-
-        cursor.execute(query, (member_id, session["gym_id"]))
-
-        row = cursor.fetchone()
-         
-        if row is None: # Should use JS here, not Python.
-            return "MEMBER NOT FOUND" # Apology
-
     return render_template("reception.html")
+
+
+@app.route("/api/check_member", methods=["POST"]) # Handle the JS. Helps prevent page from reloading. Calling it /api... is convention.
+def check_member_api():
+
+    # Get JSON data sent from JavaScript.
+    id = request.get_json()
+    member_id = id.get("member_id") # This matches the key sent frm JS.
+    
+    connection = sqlite3.connect("gyms.db")
+    connection.row_factory = dict_factory
+    cursor = connection.cursor()
+
+    query = "SELECT * " \
+            "FROM members " \
+            "WHERE member_id = ? AND gym_id = ?;"
+
+    cursor.execute(query, (member_id, session["gym_id"]))
+    row = cursor.fetchone()
+
+    connection.close()
+
+    if row is None: # If no id has been found, return false.
+        # Return a JSON
+        return jsonify({"exists": False})
+    
+    return jsonify({
+        "exists": True, 
+        "name": row["name"] # Send the name to the JS.
+    })
