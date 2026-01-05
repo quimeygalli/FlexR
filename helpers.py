@@ -102,8 +102,8 @@ def login_required(f):
 
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if session.get("user_id") is None:
-            return redirect("/login")
+        if session.get("gym_id") is None: # Slight modification to original function.
+            return redirect("/login")     # 'gym_id' is used for consistent naming.
         return f(*args, **kwargs)
 
     return decorated_function

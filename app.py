@@ -191,9 +191,9 @@ def homepage():
 
     # Show members in a list.
 
-    query = ("SELECT * "
-            "FROM members "
-            "WHERE gym_id = ?;")
+    query = "SELECT * " \
+            "FROM members " \
+            "WHERE gym_id = ?;"
 
     cursor.execute(query, (session["gym_id"],))
 
