@@ -2,10 +2,12 @@ import sqlite3
 import time
 
 from cachelib.file import FileSystemCache
+from datetime import datetime, timezone
+from dateutil.relativedelta import relativedelta
 from flask import Flask, redirect, render_template, request, session, jsonify
 from flask_session import Session
 
-from helpers import createDB, dict_factory, unix_to_MD, login_required
+from helpers import createDB, dict_factory, unix_to_date, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
@@ -29,7 +31,7 @@ app.config.from_object(__name__)
 
 Session(app)
 
-app.jinja_env.filters["convert_date"] = unix_to_MD # 'env.filters' is a dict
+app.jinja_env.filters["convert_date"] = unix_to_date # 'env.filters' is a dict
 
 """ DB creation """
 
@@ -214,10 +216,17 @@ def new_member():
 
         member_id = request.form.get("id")
         name = request.form.get("first_name")
-        last_name =request.form.get("last_name")
+        last_name = request.form.get("last_name")
+        subscription_months = int(request.form.get("subscription_months"))
+
+        # Implicit data from gym/date
+
         gym_id = session["gym_id"]
-        joined_date = int(time.time()) # Saved in UNIX timestamp
-        end_date = joined_date
+        joined_date = datetime.now()
+
+        end_date = joined_date + relativedelta(months=subscription_months)
+        
+        print(f"Today: {joined_date} \n End date: {end_date}")
 
         # ID validation
 
@@ -255,8 +264,11 @@ def new_member():
                 "VALUES (?, ?, ?, ?, ?);"
                 )
         
+        joined_unix_timestamp = int(joined_date.timestamp())
+        end_unix_timestamp = int(end_date.timestamp())
+
         cursor.execute(query, 
-                       (member_id, name + " " + last_name, gym_id, joined_date, end_date) # Awful design honestly
+                       (member_id, name + " " + last_name, gym_id, joined_unix_timestamp, end_unix_timestamp) # Awful design honestly
                        )
         
         connection.commit()

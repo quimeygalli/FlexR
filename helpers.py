@@ -83,7 +83,7 @@ def dict_factory(cursor, row):
 
     return result
 
-def unix_to_MD(timestamp):
+def unix_to_date(timestamp):
 
     """ Convert Unix timestamp to a readable date """
     """ Jinja2 templates, credits to Przemek Rogala's blog"""

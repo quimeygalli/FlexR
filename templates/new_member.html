@@ -36,11 +36,12 @@
                     <p style="margin-bottom: 0;">Enter the member's personal details to create their profile.</p>
                 </div>
 
-                <form action="/new_member" method="post" required>
+                <form action="/new_member" method="post">
+                    
                     <div class="d-flex gap-2" style="margin-bottom: 20px;">
                         <div style="flex: 1;">
                             <label for="firstName" class="form-label">First Name</label>
-                            <input name="first_name"  type="text" id="firstName" class="form-control" placeholder="e.g. Juan" autocomplete="off" required>
+                            <input name="first_name" type="text" id="firstName" class="form-control" placeholder="e.g. Juan" autocomplete="off" required>
                         </div>
                         <div style="flex: 1;">
                             <label for="lastName" class="form-label">Last Name</label>
@@ -52,6 +53,17 @@
                         <label for="nationalId" class="form-label">ID / Document Number</label>
                         <input name="id" type="number" id="nationalId" class="form-control" placeholder="e.g. 12345678" required>
                         <p class="form-hint">Used to uniquely identify the member at the front desk.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subscription" class="form-label">Subscription Duration</label>
+                        <select name="subscription_months" id="subscription" class="form-control" required>
+                            <option value="" disabled selected>Select a duration...</option>
+                            <option value="1">1 Month</option>
+                            <option value="3">3 Months</option>
+                            <option value="6">6 Months</option>
+                            <option value="12">12 Months (1 Year)</option>
+                        </select>
                     </div>
 
                     <div style="display: flex; gap: 15px; margin-top: 30px;">
