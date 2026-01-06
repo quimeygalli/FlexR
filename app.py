@@ -1,5 +1,4 @@
 import sqlite3
-import time
 
 from cachelib.file import FileSystemCache
 from datetime import datetime, timezone
@@ -9,6 +8,8 @@ from flask_session import Session
 
 from helpers import createDB, dict_factory, unix_to_date, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
+
+# TODO; Create a routine for each new member when the are registered to a gym. 
 
 app = Flask(__name__)
 
@@ -202,6 +203,69 @@ def homepage():
     members = cursor.fetchall() 
 
     return render_template("homepage.html", members=members)
+
+@app.route("/members/<int:member_id>")
+def member_detail(member_id):
+
+    """ Show member information """
+
+    connection = sqlite3.connect("gyms.db")
+    connection.row_factory = dict_factory
+
+    cursor = connection.cursor()
+
+    query = "SELECT * " \
+            "FROM members " \
+            "WHERE member_id = ?;"
+    
+    cursor.execute(query, (member_id,))
+    member_row = cursor.fetchone()
+
+    # Member data
+
+    name = member_row["name"]
+    gym_id = member_row["gym_id"]
+    joined_date = member_row["joined_date"]
+    end_date = member_row["end_date"]
+    status = member_row["status"]
+    last_visit = member_row["last_visit"]
+
+    # Routine data
+
+    query = "SELECT * " \
+            "FROM routines " \
+            "WHERE member_id = ?;"
+    
+    cursor.execute(query, (member_id,))
+    routine_row = cursor.fetchone()
+
+    cursor.close()
+    connection.close()
+
+    monday = routine_row["Monday"]
+    tuesday = routine_row["Tuesday"]
+    wednesday = routine_row["Wednesday"]
+    thursday = routine_row["Thursday"]
+    friday = routine_row["Friday"]
+    saturday = routine_row["Saturday"]
+    sunday = routine_row["Sunday"]
+
+    return render_template("member_details.html", 
+                           name=name,
+                           gym_id=gym_id,
+                           joined_date=joined_date,
+                           end_date=end_date,
+                           status=status,
+                           last_visit=last_visit,
+                           member_id=member_id,
+                           
+                           monday=monday,
+                           tuesday=tuesday,
+                           wednesday=wednesday,
+                           thursday=thursday,
+                           friday=friday,
+                           saturday=saturday,
+                           sunday=sunday)
 
 @app.route("/new_member", methods=["GET", "POST"])
 @login_required
