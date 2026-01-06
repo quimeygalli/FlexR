@@ -58,7 +58,15 @@
                             <span class="member-detail">Last visit: {{ member["last_visit"] | convert_date }}</span>
                         </div>
                         <div style="text-align: right;">
-                            <span class="badge badge-success">{{ member["status"] }}</span>
+                            <span class="badge
+                                {% if member['status'] == 'Active' %}
+                                    badge-success
+                                {% else %}
+                                    badge-danger
+                            {% endif %}"
+                            ">
+                                {{ member["status"] }}
+                            </span>
                         </div>
                     </a>
                 {% endfor %}

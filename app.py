@@ -283,7 +283,7 @@ def new_member():
         last_name = request.form.get("last_name")
         subscription_months = int(request.form.get("subscription_months"))
 
-        # Implicit data from gym/date
+        # Implicit data from gym/date.
 
         gym_id = session["gym_id"]
         joined_date = datetime.now()
@@ -292,7 +292,7 @@ def new_member():
         
         print(f"Today: {joined_date} \n End date: {end_date}")
 
-        # ID validation
+        # ID validation.
 
         if isinstance(member_id, int):
             return "PLEASE INPUT A VALID ID" # Apology
@@ -314,9 +314,9 @@ def new_member():
         row = cursor.fetchone()
 
         if row is not None:
-            return "Member is already registered" # Should find a better solution # Apology
+            return "Member is already registered" # Apology
 
-        # Insert member into members table
+        # Insert member into members table.
 
         query = ("INSERT INTO "
                 "members ("
@@ -385,6 +385,8 @@ def check_member_api():
     if row is None: # If no id has been found, return false.
         # Return a JSON
         return jsonify({"exists": False})
+    
+    last_visit = datetime.now()
     
     return jsonify({
         "exists": True, 

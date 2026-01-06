@@ -54,7 +54,7 @@
         </div>
     </header>
 
-    <section style="padding: 50px 0;">
+    <section style="padding: 30px 0;">
         <div class="container">
 
             <div style="margin-bottom: 20px;">
@@ -66,7 +66,15 @@
             <div class="page-header">
                 <div>
                     <h2>{{ name }}</h2>
-                    <span class="badge badge-success">{{ status }}</span>
+                    <!-- not the prettiest but it'll do -->
+                    <span class="badge 
+                        {% if status == 'Active' %}
+                            badge-success
+                        {% else %}
+                            badge-danger
+                        {% endif %}"">
+                        {{ status }}
+                    </span>
                 </div>
                 <div style="display: flex; gap: 10px;">
                     <button class="btn btn-outline" style="padding: 8px 20px; font-size: 0.9rem;">Delete</button>
