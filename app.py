@@ -6,7 +6,7 @@ from dateutil.relativedelta import relativedelta
 from flask import Flask, redirect, render_template, request, session, jsonify
 from flask_session import Session
 
-from helpers import createDB, dict_factory, unix_to_date, login_required
+from helpers import createDB, dict_factory, unix_to_date, login_required, update_member_status
 from werkzeug.security import check_password_hash, generate_password_hash
 
 # TODO; Create a routine for each new member when the are registered to a gym. 
@@ -43,7 +43,7 @@ createDB()                              # Creates a DB with 'gyms', 'members' an
 connection.close()
 
 
-""" WEBPAGES """
+""" WEBPAGES: """
 
 
 @app.route("/")
@@ -192,7 +192,16 @@ def homepage():
 
     cursor = connection.cursor()
 
-    # Show members in a list.
+    query = "SELECT * " \
+            "FROM members " \
+            "WHERE gym_id = ?;"
+
+    cursor.execute(query, (session["gym_id"],))
+
+    members = cursor.fetchall() 
+
+    for member in members:
+        update_member_status(session["gym_id"], member["member_id"])
 
     query = "SELECT * " \
             "FROM members " \
@@ -201,6 +210,7 @@ def homepage():
     cursor.execute(query, (session["gym_id"],))
 
     members = cursor.fetchall() 
+    connection.close()
 
     return render_template("homepage.html", members=members)
 
@@ -273,7 +283,6 @@ def new_member():
 
     """ INSERT A NEW MEMBER TO DB """
 
-
     if request.method == "POST": 
 
         # Get data from form.
@@ -289,8 +298,6 @@ def new_member():
         joined_date = datetime.now()
 
         end_date = joined_date + relativedelta(months=subscription_months)
-        
-        print(f"Today: {joined_date} \n End date: {end_date}")
 
         # ID validation.
 
@@ -334,6 +341,8 @@ def new_member():
         cursor.execute(query, 
                        (member_id, name + " " + last_name, gym_id, joined_unix_timestamp, end_unix_timestamp) # Awful design honestly
                        )
+        
+        connection.commit()
         
         # Insert member into routines table
 

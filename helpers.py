@@ -1,5 +1,6 @@
 from flask import redirect, session
 from functools import wraps
+from datetime import datetime
 import time
 import sqlite3
 
@@ -107,3 +108,48 @@ def login_required(f):
         return f(*args, **kwargs)
 
     return decorated_function
+
+def is_member_active(member):
+
+    """ Compares caducation date to current date """
+
+    today_date = int(datetime.now().timestamp())
+
+    if today_date > member["end_date"]:
+        return False
+    
+    return True
+
+def update_member_status(gym_id, member_id):
+
+
+    connection = sqlite3.connect("gyms.db")
+    connection.row_factory = dict_factory
+
+    cursor = connection.cursor()
+
+    query = "SELECT * " \
+            "FROM members " \
+            "WHERE gym_id = ? AND member_id = ?;"
+    
+    cursor.execute(query, (gym_id, member_id))
+    member = cursor.fetchone()
+
+    if is_member_active(member):
+        
+        query = "UPDATE members " \
+                "SET status = 'Active' " \
+                "WHERE member_id = ? AND gym_id = ?;"
+        cursor.execute(query, (member_id, gym_id))
+        connection.commit()
+        print("ACTIVE")
+    else: 
+        query = "UPDATE members " \
+                "SET status = 'Inactive' " \
+                "WHERE member_id = ? AND gym_id = ?;"
+        cursor.execute(query, (member_id, gym_id))
+        connection.commit()
+        print("NOT ACTIVE")
+
+
+    connection.close()
