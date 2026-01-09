@@ -89,6 +89,7 @@ def unix_to_date(timestamp):
     """ Convert Unix timestamp to a readable date """
     """ Jinja2 templates, credits to Przemek Rogala's blog"""
     """ time.strftime formatinc, credits to geeksforgeeks.org"""
+    
     if timestamp is None:
         return ""
     return time.strftime("%b, %d ", time.localtime(timestamp))
@@ -150,3 +151,14 @@ def update_member_status(gym_id):
             connection.commit()
 
     connection.close()
+
+def expiration_date(member):
+    today = datetime.today().timestamp()
+    end_date = member["end_date"]
+
+    days_remaining = int(end_date - today) # error. this is returning a date way back in the past.
+    
+    if days_remaining > 0:
+        return "Expired"
+
+    return days_remaining

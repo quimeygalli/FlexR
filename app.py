@@ -6,7 +6,7 @@ from dateutil.relativedelta import relativedelta
 from flask import Flask, redirect, render_template, request, session, jsonify
 from flask_session import Session
 
-from helpers import createDB, dict_factory, unix_to_date, login_required, update_member_status
+from helpers import createDB, dict_factory, unix_to_date, login_required, update_member_status, days_remaining
 from werkzeug.security import check_password_hash, generate_password_hash
 
 # TODO; Create a routine for each new member when the are registered to a gym. 
@@ -239,6 +239,9 @@ def member_detail(member_id):
     end_date = member_row["end_date"]
     status = member_row["status"]
     last_visit = member_row["last_visit"]
+    days_left = days_remaining(member_row)
+
+    print(days_left)
 
     # Routine data
 
@@ -268,6 +271,7 @@ def member_detail(member_id):
                            status=status,
                            last_visit=last_visit,
                            member_id=member_id,
+                           days_left=days_left,
                            
                            monday=monday,
                            tuesday=tuesday,
