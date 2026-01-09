@@ -115,41 +115,38 @@ def is_member_active(member):
 
     today_date = int(datetime.now().timestamp())
 
-    if today_date > member["end_date"]:
-        return False
-    
-    return True
+    return today_date < member["end_date"]
 
-def update_member_status(gym_id, member_id):
+def update_member_status(gym_id): 
 
+    """ Check all members status' and update it if necessary """
 
     connection = sqlite3.connect("gyms.db")
     connection.row_factory = dict_factory
 
     cursor = connection.cursor()
 
-    query = "SELECT * " \
+    query = "SELECT member_id, end_date, status " \
             "FROM members " \
-            "WHERE gym_id = ? AND member_id = ?;"
+            "WHERE gym_id = ?; "
     
-    cursor.execute(query, (gym_id, member_id))
-    member = cursor.fetchone()
+    cursor.execute(query, (gym_id,))
 
-    if is_member_active(member):
-        
-        query = "UPDATE members " \
-                "SET status = 'Active' " \
-                "WHERE member_id = ? AND gym_id = ?;"
-        cursor.execute(query, (member_id, gym_id))
-        connection.commit()
-        print("ACTIVE")
-    else: 
-        query = "UPDATE members " \
-                "SET status = 'Inactive' " \
-                "WHERE member_id = ? AND gym_id = ?;"
-        cursor.execute(query, (member_id, gym_id))
-        connection.commit()
-        print("NOT ACTIVE")
-
+    members = cursor.fetchall()
+    
+    for member in members:
+        print(is_member_active(member)) # DELETE
+        if is_member_active(member):
+            query = "UPDATE members " \
+                    "SET status = 'Active' " \
+                    "WHERE member_id = ? AND gym_id = ?;"
+            cursor.execute(query, (member["member_id"], gym_id))
+            connection.commit()
+        else: 
+            query = "UPDATE members " \
+                    "SET status = 'Inactive' " \
+                    "WHERE member_id = ? AND gym_id = ?;"
+            cursor.execute(query, (member["member_id"], gym_id))
+            connection.commit()
 
     connection.close()

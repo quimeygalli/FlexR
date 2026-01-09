@@ -187,6 +187,8 @@ def homepage():
 
     """ Gym owner's menu """
 
+    update_member_status(session["gym_id"])
+
     connection = sqlite3.connect("gyms.db")
     connection.row_factory = dict_factory
 
@@ -200,9 +202,6 @@ def homepage():
 
     members = cursor.fetchall() 
 
-    for member in members:
-        update_member_status(session["gym_id"], member["member_id"])
-
     query = "SELECT * " \
             "FROM members " \
             "WHERE gym_id = ?;"
@@ -215,6 +214,7 @@ def homepage():
     return render_template("homepage.html", members=members)
 
 @app.route("/members/<int:member_id>")
+@login_required
 def member_detail(member_id):
 
     """ Show member information """
@@ -365,6 +365,8 @@ def new_member():
 def reception():
 
     """ Render reception """
+
+    update_member_status(session["gym_id"])
 
     return render_template("reception.html")
 
