@@ -28,7 +28,7 @@ FlexR is a web application aimed at gyms, focused on centralized management of m
 * Gym registration and authentication
 * Secure login with salted and hashed passwords
 * Member creation, update, and deletion
-* Centralized member management (activity status, routines, payments – planned)
+* Centralized member management (creation activity status, routines, deletion)
 * Session persistence
 * SQLite database
 
@@ -41,7 +41,7 @@ FlexR is a web application aimed at gyms, focused on centralized management of m
 
 ## Project Status
 
-FlexR is currently **in development**. Some features are implemented, while others are planned or partially completed.
+FlexR is currently in development. Some features are implemented, while others are planned or partially completed.
 
 ## Installation
 
