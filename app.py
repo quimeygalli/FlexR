@@ -241,8 +241,6 @@ def member_detail(member_id):
     last_visit = member_row["last_visit"]
     days_left = days_remaining(member_row)
 
-    print(days_left)
-
     # Routine data
 
     query = "SELECT * " \

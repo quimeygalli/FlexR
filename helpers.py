@@ -1,6 +1,6 @@
 from flask import redirect, session
 from functools import wraps
-from datetime import datetime
+import datetime
 import time
 import sqlite3
 
@@ -114,7 +114,7 @@ def is_member_active(member):
 
     """ Compares caducation date to current date """
 
-    today_date = int(datetime.now().timestamp())
+    today_date = int(datetime.datetime.now().timestamp())
 
     return today_date < member["end_date"]
 
@@ -136,7 +136,6 @@ def update_member_status(gym_id):
     members = cursor.fetchall()
     
     for member in members:
-        print(is_member_active(member)) # DELETE
         if is_member_active(member):
             query = "UPDATE members " \
                     "SET status = 'Active' " \
@@ -152,13 +151,15 @@ def update_member_status(gym_id):
 
     connection.close()
 
-def expiration_date(member):
-    today = datetime.today().timestamp()
-    end_date = member["end_date"]
+def days_remaining(member):
+    today = datetime.date.today()
+    end_date = datetime.date.fromtimestamp((member["end_date"]))
 
-    days_remaining = int(end_date - today) # error. this is returning a date way back in the past.
+    print(f"End date type: {type(end_date)} \nToday type: {type(today)}")
+    print(f"End date: {end_date} \nToday: {today}")
+    days_remaining = (end_date - today).days
     
-    if days_remaining > 0:
+    if days_remaining < 0:
         return "Expired"
 
-    return days_remaining
+    return (f"{days_remaining} days")
